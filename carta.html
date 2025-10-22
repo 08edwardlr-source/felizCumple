@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta de Mi Corazón</title>
+<style>
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg, #ffccd5, #ffb3c6);
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 30px;
+    color: #d6336c;
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    text-align: center;
+    color: #ff4d6d;
+    margin-top: -10px;
+    font-weight: 500;
+  }
+
+  .carta {
+    position: relative;
+    background: #fff;
+    width: 70%;
+    margin: 50px auto;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    text-align: justify;
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.6s ease;
+  }
+
+  .carta.abierta {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  button {
+    position: absolute;
+    background: #ff4d6d;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 14px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #d6336c;
+  }
+
+  .abrir { left: 20px; top: 20px; }
+  .cerrar { right: 20px; top: 20px; }
+
+  .corazon {
+    position: absolute;
+    color: #ff4d6d;
+    animation: flotar 6s infinite ease-in-out;
+    opacity: 0.6;
+  }
+
+  @keyframes flotar {
+    0% { transform: translateY(100vh) scale(0.8); opacity: 0.5; }
+    100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Carta de Mi Corazón</h1>
+<h2>Mi gran felicidad</h2>
+
+<button class="abrir" onclick="abrirCarta()">✔ABRIR</button>
+<button class="cerrar" onclick="cerrarCarta()">❌CERRAR</button>
+
+<div class="carta" id="carta">
+  <p>Hoy es tu día, y no podía dejarlo pasar sin decirte lo importante que eres para mí. A veces no soy el mejor para expresar lo que siento, pero de verdad quiero que sepas que te tengo un cariño enorme. Gracias por estar siempre ahí, por aguantar mis tonterías, por escucharme cuando nadie más lo hace y por ser esa persona con la que puedo ser yo mismo sin miedo a nada.</p>
+  <p>Me alegra mucho verte cumplir un año más, no solo porque estás creciendo, sino porque cada día te veo más fuerte, más madura y más segura de ti misma. Eres alguien que inspira, aunque a veces no te des cuenta. Tu forma de reír, de apoyar a los demás, de no rendirte… todo eso te hace una persona increíble.</p>
+  <p>Solo quiero desearte lo mejor en este nuevo año de vida. Que no te falte la felicidad, el amor, las metas cumplidas y, sobre todo, las personas que te quieren de verdad (entre ellas, yo). No importa cuánto pase el tiempo o cuántas cosas cambien, siempre vas a tener en mí a un amigo que te quiere mucho y que estará a tu lado para celebrar tus victorias o para ayudarte a levantarte cuando las cosas no salgan tan bien.</p>
+  <p>Feliz cumpleaños, mi mejor amiga.</p>
+
+  <div style="text-align:center; margin-top:30px;">
+    <button style="position:relative; border-radius:12px; padding:10px 20px; background:#ff4d6d;" onclick="window.location.href='recuerdos.html'">💌 Ver Recuerdos</button>
+  </div>
+</div>
+
+<script>
+  function abrirCarta(){
+    document.getElementById("carta").classList.add("abierta");
+  }
+
+  function cerrarCarta(){
+    document.getElementById("carta").classList.remove("abierta");
+  }
+
+  // corazones flotantes
+  function crearCorazones(){
+    const body = document.body;
+    const heart = document.createElement("div");
+    heart.classList.add("corazon");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(crearCorazones, 400);
+</script>
+<script>
+  function crearCorazones(){
+    const body = document.body;
+    const heart = document.createElement("div");
+    heart.classList.add("corazon");
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }
+  setInterval(crearCorazones, 400);
+</script>
+<button class="btn" onclick="window.location.href='tiempo.html'">💌 Volver al Tiempo</button>
+</body>
+</html>

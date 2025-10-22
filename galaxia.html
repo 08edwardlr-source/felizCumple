@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Galaxia 💫</title>
+<style>
+  :root{
+    --bg-dark:#030006;
+    --accent1:#ff416c;
+    --accent2:#ff8c42;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%;background:var(--bg-dark);overflow:hidden;font-family:'Poppins',sans-serif;color:#fff}
+
+  canvas#galaxy-bg {
+    position:fixed; inset:0; width:100%; height:100%; z-index:0;
+  }
+
+  #app {position:fixed;inset:0;z-index:5;perspective:1200px;}
+  .stage{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;}
+  .orbit{width:1000px;height:800px;position:relative;transform-style:preserve-3d;}
+
+  .word{
+    position:absolute;
+    left:50%;top:50%;
+    transform-style:preserve-3d;
+    white-space:nowrap;
+    color:white;
+    font-weight:700;
+    pointer-events:none;
+    text-shadow:0 0 8px rgb(0, 0, 0);
+  }
+  .s-xs{font-size:.8rem;opacity:.7}
+  .s-sm{font-size:1.1rem;opacity:.8}
+  .s-md{font-size:1.4rem;opacity:.9}
+  .s-lg{font-size:2rem;opacity:1;text-shadow:0 0 12px rgba(255,100,120,0.6)}
+
+  #centerHeart {
+    position:absolute;
+    left:50%; top:50%;
+    transform:translate(-50%,-50%) scale(1);
+    width:200px; height:200px;
+    background: radial-gradient(circle at center, #ff4d6d 0%, #ff1e56 70%, transparent 100%);
+    clip-path: path("M100,30 C100,-10,0,-10,0,70 C0,110,50,160,100,200 C150,160,200,110,200,70 C200,-10,100,-10,100,30 Z");
+    box-shadow: 0 0 40px 20px rgba(255, 50, 100, 0.4);
+    animation: beat 0.8s infinite ease-in-out, floatZoom 6s infinite ease-in-out;
+  }
+
+  @keyframes beat {
+    0%,100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px 20px rgba(255, 50, 100, 0.4);}
+    50% { transform: translate(-50%, -50%) scale(1.25); box-shadow: 0 0 70px 35px rgba(255, 80, 120, 0.6);}
+  }
+
+  @keyframes floatZoom {
+    0%,100% { filter: brightness(1); transform: translate(-50%, -50%) scale(1); }
+    50% { filter: brightness(1.2); transform: translate(-50%, -50%) scale(1.25); }
+  }
+
+  .controls{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    z-index:15;
+    background:rgba(0,0,0,0.3);
+    padding:8px 10px;
+    border-radius:10px;
+    backdrop-filter:blur(6px);
+  }
+  .controls button{
+    background:transparent;
+    border:none;
+    color:#fff;
+    cursor:pointer;
+    font-weight:700;
+    padding:6px 8px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="galaxy-bg"></canvas>
+
+<div id="app">
+  <div class="stage">
+    <div class="orbit" id="orbit"></div>
+    <div id="centerHeart"></div>
+  </div>
+</div>
+
+<div class="controls" id="controls">
+  <button id="muteBtn">🔈 Silenciar</button>
+  <button id="pauseBtn">⏸ Pausar</button>
+  <button onclick="window.location.href='tiempo.html'">🎉 ¡Feliz Cumpleaños! 💝</button>
+</div>
+
+<audio id="bgAudio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2023/06/27/audio_3041a5dd54.mp3?filename=ethereal-space-ambient-15002.mp3"></audio>
+
+<script>
+const c = document.getElementById("galaxy-bg");
+const ctx = c.getContext("2d");
+let W = innerWidth, H = innerHeight;
+c.width = W; c.height = H;
+let stars = [];
+function initStars(){
+  stars = [];
+  for(let i=0;i<200;i++){
+    stars.push({x:Math.random()*W,y:Math.random()*H,z:Math.random()*W});
+  }
+}
+initStars();
+function drawStars(){
+  ctx.fillStyle="#030006";
+  ctx.fillRect(0,0,W,H);
+  for(let s of stars){
+    s.z -= 2; if(s.z<=0)s.z=W;
+    let k=128.0/s.z;
+    let px=s.x*k+W/2;
+    let py=s.y*k+H/2;
+    let size=(1-s.z/W)*2;
+    ctx.fillStyle="rgba(255,255,255,0.8)";
+    ctx.fillRect(px,py,size,size);
+  }
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+const words=["Hermosa","Linda","Preciosa","Mi calma","Contigo","Reina","Mi fortuna","Brillas","Magia","Inspiración","Destino","Alegría","Sueño","Loca","Curiosa","Extrovertida","Mi universo","Eternidad","Siempre tú","Pasión","Mi corazón","Te amo"];
+const orbit=document.getElementById("orbit");
+const elements=[];
+function randomSpherePoint(radius){
+  const u=Math.random(),v=Math.random();
+  const theta=2*Math.PI*u,phi=Math.acos(2*v-1);
+  const x=radius*Math.sin(phi)*Math.cos(theta);
+  const y=radius*Math.sin(phi)*Math.sin(theta);
+  const z=radius*Math.cos(phi);
+  return{x,y,z};
+}
+function createWords(){
+  const r=400;
+  for(let i=0;i<words.length*2;i++){
+    const w=document.createElement("div");
+    const text=words[i%words.length];
+    w.className="word "+(["s-xs","s-sm","s-md","s-lg"][i%4]);
+    w.textContent=text;
+    const p=randomSpherePoint(r);
+    orbit.appendChild(w);
+    elements.push({el:w,x:p.x,y:p.y,z:p.z});
+  }
+}
+createWords();
+let a=0;
+function animate(){
+  a+=0.5;
+  const cos=Math.cos(a*Math.PI/180),sin=Math.sin(a*Math.PI/180);
+  for(let e of elements){
+    const x=e.x*cos - e.z*sin;
+    const z=e.x*sin + e.z*cos;
+    const scale=500/(500-z);
+    e.el.style.transform=`translate3d(${x}px,${e.y}px,${z}px) translate(-50%,-50%) scale(${scale})`;
+    e.el.style.opacity=0.5+0.5*(1-z/500);
+  }
+  requestAnimationFrame(animate);
+}
+animate();
+
+const audio=document.getElementById("bgAudio");
+audio.play();
+document.getElementById("muteBtn").onclick=()=>audio.muted=!audio.muted;
+document.getElementById("pauseBtn").onclick=()=>audio.paused?audio.play():audio.pause();
+</script>
+
+</body>
+</html>
