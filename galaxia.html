@@ -66,6 +66,9 @@
     padding:8px 10px;
     border-radius:10px;
     backdrop-filter:blur(6px);
+    display:flex;
+    flex-direction:column;
+    gap:8px;
   }
   .controls button{
     background:transparent;
@@ -74,6 +77,29 @@
     cursor:pointer;
     font-weight:700;
     padding:6px 8px;
+    transition: all 0.3s ease;
+  }
+
+  /* 🔥 Botón resaltado de "Feliz Cumpleaños" */
+  .highlight-btn {
+    background: linear-gradient(45deg, #ff006e, #ff85a1, #ffd6d6);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 22px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    box-shadow: 0 0 25px 10px rgba(255, 0, 100, 0.6);
+    animation: glow 2s infinite alternate ease-in-out;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .highlight-btn:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 40px 15px rgba(255, 120, 150, 0.9);
+  }
+  @keyframes glow {
+    from { box-shadow: 0 0 20px rgba(255, 0, 100, 0.6); }
+    to { box-shadow: 0 0 40px rgba(255, 200, 220, 0.9); }
   }
 </style>
 </head>
@@ -91,7 +117,7 @@
 <div class="controls" id="controls">
   <button id="muteBtn">🔈 Silenciar</button>
   <button id="pauseBtn">⏸ Pausar</button>
-  <button onclick="window.location.href='tiempo.html'">🎉 ¡Feliz Cumpleaños! 💝</button>
+  <button class="highlight-btn" onclick="window.location.href='tiempo.html'">pulsa aqui->🎉 ¡Feliz Cumpleaños! 💝</button>
 </div>
 
 <audio id="bgAudio" loop preload="auto" src="https://cdn.pixabay.com/download/audio/2023/06/27/audio_3041a5dd54.mp3?filename=ethereal-space-ambient-15002.mp3"></audio>
